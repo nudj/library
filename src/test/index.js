@@ -62,8 +62,8 @@ describe('Library', () => {
     })
   })
   describe('promiseMap', () => {
-    const resolveSuppliedText = (resolveText) => new Promise((resolve, reject) => process.nextTick(() => resolve(resolveText)))
-    const rejectSuppliedError = (error) => new Promise((resolve, reject) => process.nextTick(() => reject(error)))
+    const resolveSuppliedText = (resolveText) => Promise.resolve(resolveText)
+    const rejectSuppliedError = (error) => Promise.reject(error)
 
     it('should put the object resolved in the right place', (done) => {
       const exampleText = 'this is some example text, babes'
