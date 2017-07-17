@@ -8,11 +8,11 @@ let config = {
   }
 }
 try {
-  if (process.title === 'node') {
+  if (process.title.includes('node')) {
     config.baseURL = 'http://localhost:82/'
   }
 } catch (error) {
   console.log('Browser')
 }
 const axios = Axios.create(config)
-module.exports = ((...args) => axios(...args)).then((response) => response.data)
+module.exports = (...args) => axios(...args).then((response) => response.data)
