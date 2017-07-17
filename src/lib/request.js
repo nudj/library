@@ -15,4 +15,4 @@ try {
   console.log('Browser')
 }
 const axios = Axios.create(config)
-module.exports = axios(uri, options).then((response) => response.data)
+module.exports = ((...args) => axios(...args)).then((response) => response.data)
