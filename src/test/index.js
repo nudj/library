@@ -9,6 +9,26 @@ chai.use(dirtyChai)
 let library = require('../lib')
 
 describe('Library', () => {
+  describe('makeSlug', () => {
+    it('returns an unmodified string if the original string was ok', () => {
+      const okExample = 'example'
+      expect(library.makeSlug(okExample)).to.equal(okExample)
+    })
+    it('removes all non-compliant characters and return a lower-case string', () => {
+      const examples = [
+        ['Example', 'example'],
+        ['This example', 'this-example'],
+        ['This is an Example', 'this-is-an-example'],
+        ['LOUD NOISES!', 'loud-noises'],
+        ['@yoyo@', 'yoyo'],
+        ['Matt smells', 'matt-smells'],
+        ['Matt-Smells', 'matt-smells'],
+        ['matt_smells', 'matt-smells'],
+        ['TH1$  1S AN   EXTR33333M     EXAMPL@@@@@!!!!', 'th1-1s-an-extr33333m-exampl']
+      ]
+      examples.forEach(example => expect(library.makeSlug(example[0])).to.equal(example[1]))
+    })
+  })
   describe('merge', () => {
     it('merges two objects', () => {
       expect(library.merge({ a: 1 }, { b: 2 })).to.deep.equal({
