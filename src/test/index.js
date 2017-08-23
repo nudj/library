@@ -164,7 +164,7 @@ describe('Library', () => {
       expect(library.promiseChain([action1, action2], 0)).to.be.a('Promise')
     })
 
-    it('should resolve when all the promises have resolved', (done) => {
+    it('should resolve when all the actions have resolved', (done) => {
       library
         .promiseChain([action1, action2], 0)
         .then(() => {
