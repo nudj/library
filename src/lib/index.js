@@ -1,4 +1,5 @@
 const deepmerge = require('deepmerge')
+const curry = require('lodash/curry')
 
 const makeSlug = function (name) {
   return name.toLowerCase()
@@ -25,8 +26,17 @@ const promiseMap = (promiseObj) => {
   })
 }
 
+const promiseChain = curry((actions, data) => actions[0] ? actions[0](data).then(promiseChain(actions.slice(1))) : data)
+
+const addDataKeyValue = (key, action) => data => {
+  data[key] = action(data)
+  return promiseMap(data)
+}
+
 module.exports = {
   makeSlug,
   merge,
-  promiseMap
+  promiseMap,
+  promiseChain,
+  addDataKeyValue
 }
