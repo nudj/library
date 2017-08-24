@@ -154,76 +154,12 @@ describe('Library', () => {
         })
     })
   })
-  describe('promiseChain', () => {
-    const action1 = () => new Promise(resolve => resolve(1))
-    const action2 = () => new Promise(resolve => resolve(2))
-    const errorReject = new Error('REJECT')
-    const actionReject = data => new Promise((resolve, reject) => reject(errorReject))
-
-    it('should return a promise', () => {
-      expect(library.promiseChain([action1, action2], 0)).to.be.a('Promise')
-    })
-
-    it('should resolve when all the actions have resolved', (done) => {
-      library
-        .promiseChain([action1, action2], 0)
-        .then(() => {
-          expect(true).to.be.true()
-          done()
-        })
-    })
-
-    it('should resolve with the final resolve value', (done) => {
-      library
-        .promiseChain([action1, action2], 0)
-        .then(result => {
-          expect(result).to.equal(2)
-          done()
-        })
-    })
-
-    it('should pass each resolution to the next action', (done) => {
-      const pIncrement = data => new Promise(resolve => resolve(data + 1))
-      library
-        .promiseChain([pIncrement, pIncrement], 0)
-        .then(result => {
-          expect(result).to.equal(2)
-          done()
-        })
-    })
-
-    it('should reject with any errors', (done) => {
-      library
-        .promiseChain([actionReject], 0)
-        .catch(error => {
-          expect(error).to.equal(errorReject)
-          done()
-        })
-    })
-
-    it('should reject with first error', (done) => {
-      library
-        .promiseChain([actionReject, action2], 0)
-        .catch(error => {
-          expect(error).to.equal(errorReject)
-          done()
-        })
-    })
-
-    it('should reject after deep chain error', (done) => {
-      library
-        .promiseChain([action1, actionReject], 0)
-        .catch(error => {
-          expect(error).to.equal(errorReject)
-          done()
-        })
-    })
-  })
   describe('addDataKeyValue', () => {
-    const key = 'one'
+    const key = 'value'
     const action = () => new Promise(resolve => resolve(1))
+    const actionData = data => new Promise(resolve => resolve(data.one + 1))
     const errorReject = new Error('REJECT')
-    const actionReject = data => new Promise((resolve, reject) => reject(errorReject))
+    const actionReject = () => new Promise((resolve, reject) => reject(errorReject))
 
     it('should return a function', () => {
       expect(library.addDataKeyValue(key, action)).to.be.a('Function')
@@ -246,7 +182,7 @@ describe('Library', () => {
       library
         .addDataKeyValue(key, action)({})
         .then(data => {
-          expect(Object.keys(data)).to.deep.equal(['one'])
+          expect(Object.keys(data)).to.deep.equal(['value'])
           done()
         })
     })
@@ -256,7 +192,19 @@ describe('Library', () => {
         .addDataKeyValue(key, action)({})
         .then(data => {
           expect(data).to.deep.equal({
-            one: 1
+            value: 1
+          })
+          done()
+        })
+    })
+
+    it('should pass data down to actions and append results to data', (done) => {
+      library
+        .addDataKeyValue(key, actionData)({ one: 1 })
+        .then(data => {
+          expect(data).to.deep.equal({
+            one: 1,
+            value: 2
           })
           done()
         })
@@ -267,6 +215,204 @@ describe('Library', () => {
         .addDataKeyValue(key, actionReject)({})
         .catch(error => {
           expect(error).to.equal(errorReject)
+          done()
+        })
+    })
+  })
+  describe('actionMap', () => {
+    const promiseObject = {
+      primitive: 'primitiveResult',
+      promise: Promise.resolve('promiseResult'),
+      action: () => Promise.resolve('actionResult'),
+      actionData: data => Promise.resolve('actionData' + data)
+    }
+    let data
+
+    beforeEach(() => {
+      data = library.actionMap(promiseObject, 'Result')
+    })
+
+    it('should return a promise', () => {
+      expect(data).to.be.a('promise')
+    })
+    it('should resolve with a plain object', (done) => {
+      data.then(result => {
+        expect(result).to.be.an('object')
+        done()
+      })
+    })
+    it('should map primitives untouched', (done) => {
+      data.then(result => {
+        expect(result.primitive).to.equal('primitiveResult')
+        done()
+      })
+    })
+    it('should map result of sub promises', (done) => {
+      data.then(result => {
+        expect(result.promise).to.equal('promiseResult')
+        done()
+      })
+    })
+    it('should map result of actions', (done) => {
+      data.then(result => {
+        expect(result.action).to.equal('actionResult')
+        done()
+      })
+    })
+    it('should pass supplied data into actions', (done) => {
+      data.then(result => {
+        expect(result.actionData).to.equal('actionDataResult')
+        done()
+      })
+    })
+    it('should reject if sub promise rejects', (done) => {
+      const rejectError = new Error('REJECT')
+      library.actionMap({
+        rejectPromise: Promise.reject(rejectError)
+      })
+      .catch(error => {
+        expect(error).to.equal(rejectError)
+        done()
+      })
+    })
+    it('should reject if sub action rejects', (done) => {
+      const rejectError = new Error('REJECT')
+      library.actionMap({
+        rejectAction: () => Promise.reject(rejectError)
+      })
+      .catch(error => {
+        expect(error).to.equal(rejectError)
+        done()
+      })
+    })
+  })
+  describe('actionChain', () => {
+    const action1 = () => new Promise(resolve => resolve(1))
+    const action2 = () => new Promise(resolve => resolve(2))
+    const errorReject = new Error('REJECT')
+    const actionReject = data => new Promise((resolve, reject) => reject(errorReject))
+
+    it('should return a promise', () => {
+      expect(library.actionChain([action1, action2], 0)).to.be.a('Promise')
+    })
+
+    it('should resolve when all the actions have resolved', (done) => {
+      library
+        .actionChain([action1, action2], 0)
+        .then(() => {
+          expect(true).to.be.true()
+          done()
+        })
+    })
+
+    it('should resolve with the final resolve value', (done) => {
+      library
+        .actionChain([action1, action2], 0)
+        .then(result => {
+          expect(result).to.equal(2)
+          done()
+        })
+    })
+
+    it('should pass each resolution to the next action', (done) => {
+      const pIncrement = data => new Promise(resolve => resolve(data + 1))
+      library
+        .actionChain([pIncrement, pIncrement], 0)
+        .then(result => {
+          expect(result).to.equal(2)
+          done()
+        })
+    })
+
+    it('should reject with any errors', (done) => {
+      library
+        .actionChain([actionReject], 0)
+        .catch(error => {
+          expect(error).to.equal(errorReject)
+          done()
+        })
+    })
+
+    it('should reject with first error', (done) => {
+      library
+        .actionChain([actionReject, action2], 0)
+        .catch(error => {
+          expect(error).to.equal(errorReject)
+          done()
+        })
+    })
+
+    it('should reject after deep chain error', (done) => {
+      library
+        .actionChain([action1, actionReject], 0)
+        .catch(error => {
+          expect(error).to.equal(errorReject)
+          done()
+        })
+    })
+
+    it('should be curried', (done) => {
+      const curried = library.actionChain([action1, action2])
+      expect(curried).to.be.a('function')
+      curried(0).then(result => {
+        expect(result).to.equal(2)
+        done()
+      })
+    })
+  })
+  describe('actionMapAssign', () => {
+    const actionMap1 = {
+      a1: () => Promise.resolve(1)
+    }
+    const actionMap2 = {
+      a2: () => Promise.resolve(2)
+    }
+    const actionMapData = {
+      aData: data => Promise.resolve(data.a1 + 1)
+    }
+    const actionReject = new Error('REJECT')
+    const actionMapReject = {
+      reject: () => Promise.reject(actionReject)
+    }
+
+    it('should return a promise', () => {
+      expect(library.actionMapAssign(actionMap1, actionMap2)).to.be.a('promise')
+    })
+    it('should return an object', (done) => {
+      library
+        .actionMapAssign(actionMap1, actionMap2)
+        .then(result => {
+          expect(result).to.be.an('object')
+          done()
+        })
+    })
+    it('should return an accumulation of the results of all the resolved actionMaps', (done) => {
+      library
+        .actionMapAssign(actionMap1, actionMap2)
+        .then(result => {
+          expect(result).to.deep.equal({
+            a1: 1,
+            a2: 2
+          })
+          done()
+        })
+    })
+    it('should pass the resolutions of previous actionMaps onto the next actionMap\'s actions', (done) => {
+      library
+        .actionMapAssign(actionMap1, actionMapData)
+        .then(result => {
+          expect(result).to.deep.equal({
+            a1: 1,
+            aData: 2
+          })
+          done()
+        })
+    })
+    it('should should reject if any of the actionMaps reject', (done) => {
+      library
+        .actionMapAssign(actionMap1, actionMapReject)
+        .catch(error => {
+          expect(error).to.equal(actionReject)
           done()
         })
     })
