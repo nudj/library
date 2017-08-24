@@ -155,10 +155,11 @@ describe('Library', () => {
     })
   })
   describe('addDataKeyValue', () => {
-    const key = 'one'
+    const key = 'value'
     const action = () => new Promise(resolve => resolve(1))
+    const actionData = data => new Promise(resolve => resolve(data.one + 1))
     const errorReject = new Error('REJECT')
-    const actionReject = data => new Promise((resolve, reject) => reject(errorReject))
+    const actionReject = () => new Promise((resolve, reject) => reject(errorReject))
 
     it('should return a function', () => {
       expect(library.addDataKeyValue(key, action)).to.be.a('Function')
@@ -181,7 +182,7 @@ describe('Library', () => {
       library
         .addDataKeyValue(key, action)({})
         .then(data => {
-          expect(Object.keys(data)).to.deep.equal(['one'])
+          expect(Object.keys(data)).to.deep.equal(['value'])
           done()
         })
     })
@@ -191,7 +192,19 @@ describe('Library', () => {
         .addDataKeyValue(key, action)({})
         .then(data => {
           expect(data).to.deep.equal({
-            one: 1
+            value: 1
+          })
+          done()
+        })
+    })
+
+    it('should pass data down to actions and append results to data', (done) => {
+      library
+        .addDataKeyValue(key, actionData)({ one: 1 })
+        .then(data => {
+          expect(data).to.deep.equal({
+            one: 1,
+            value: 2
           })
           done()
         })
