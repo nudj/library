@@ -352,18 +352,23 @@ describe('Library', () => {
       a1: () => Promise.resolve(1)
     }
     const actionMap2 = {
-      a2: data => Promise.resolve(2)
+      a2: () => Promise.resolve(2)
     }
     const actionMapData = {
       aData: data => Promise.resolve(data.a1 + 1)
     }
+    const actionReject = new Error('REJECT')
+    const actionMapReject = {
+      reject: () => Promise.reject(actionReject)
+    }
+
     it('should return a promise', () => {
       expect(library.actionMapAssign(actionMap1, actionMap2)).to.be.a('promise')
     })
     it('should return an object', (done) => {
       library
         .actionMapAssign(actionMap1, actionMap2)
-        .then((result) => {
+        .then(result => {
           expect(result).to.be.an('object')
           done()
         })
@@ -371,7 +376,7 @@ describe('Library', () => {
     it('should return an accumulation of the results of all the resolved actionMaps', (done) => {
       library
         .actionMapAssign(actionMap1, actionMap2)
-        .then((result) => {
+        .then(result => {
           expect(result).to.deep.equal({
             a1: 1,
             a2: 2
@@ -382,11 +387,19 @@ describe('Library', () => {
     it('should pass the resolutions of previous actionMaps onto the next actionMap\'s actions', (done) => {
       library
         .actionMapAssign(actionMap1, actionMapData)
-        .then((result) => {
+        .then(result => {
           expect(result).to.deep.equal({
             a1: 1,
             aData: 2
           })
+          done()
+        })
+    })
+    it('should should reject if any of the actionMaps reject', (done) => {
+      library
+        .actionMapAssign(actionMap1, actionMapReject)
+        .catch(error => {
+          expect(error).to.equal(actionReject)
           done()
         })
     })
