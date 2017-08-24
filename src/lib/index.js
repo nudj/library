@@ -64,6 +64,5 @@ module.exports = {
   addDataKeyValue,
   actionMap,
   actionChain,
-  actionAccumulator,
   actionMapAssign
 }
