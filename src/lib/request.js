@@ -1,6 +1,6 @@
 const Axios = require('axios')
 
-let config = {
+const config = {
   baseURL: '/',
   headers: {
     'Accept': 'application/json',

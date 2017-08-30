@@ -17,7 +17,10 @@ ssh:
 		-v $(CWD)/src/lib:/usr/src/lib \
 		-v $(CWD)/src/test:/usr/src/test \
 		-v ${CWD}/src/.npmignore:/usr/src/.npmignore \
+		-v ${CWD}/src/client.js:/usr/src/client.js \
+		-v ${CWD}/src/index.js:/usr/src/index.js \
 		-v $(CWD)/src/package.json:/usr/src/package.json \
+		-v ${CWD}/src/server.js:/usr/src/server.js \
 		$(IMAGEDEV) \
 		/bin/zsh
 
