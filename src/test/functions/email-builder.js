@@ -3,7 +3,7 @@ const chai = require('chai')
 const dirtyChai = require('dirty-chai')
 const expect = chai.expect
 
-const emailBuilder = require('../../lib/functions/email-builder')
+const { emailBuilder } = require('../../lib')
 
 chai.use(dirtyChai)
 
