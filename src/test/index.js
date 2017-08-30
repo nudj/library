@@ -6,7 +6,7 @@ let expect = chai.expect
 
 chai.use(dirtyChai)
 
-let library = require('../lib')
+let library = require('../')
 
 describe('Library', () => {
   describe('makeSlug', () => {

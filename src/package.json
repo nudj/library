@@ -2,7 +2,7 @@
   "name": "@nudj/library",
   "version": "0.7.1",
   "description": "Nudj Code Library",
-  "main": "lib/index.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nudj/library.git"
