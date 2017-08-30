@@ -426,7 +426,7 @@ describe('Library', () => {
         key: 'value'
       })).to.equal('key=value')
     })
-    it('should return the key and value in query string format', () => {
+    it('should return multiple key/value pairs separated by an ampersand', () => {
       expect(library.toQs({
         key1: 'value1',
         key2: 'value2'
