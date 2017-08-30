@@ -1,6 +1,6 @@
 {
   "name": "@nudj/library",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Nudj Code Library",
   "main": "lib/index.js",
   "repository": {
