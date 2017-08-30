@@ -7,7 +7,7 @@ const { emailBuilder } = require('../server')
 
 chai.use(dirtyChai)
 
-describe('Email Builder', () => {
+describe('emailBuilder', () => {
   it('should return a string', () => {
     expect(emailBuilder({})).to.be.a('string')
   })

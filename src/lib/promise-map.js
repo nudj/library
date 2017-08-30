@@ -1,6 +1,6 @@
 const promiseMap = (promiseObj) => {
-  let promiseArr = []
-  let keyMap = {}
+  const promiseArr = []
+  const keyMap = {}
   Object.keys(promiseObj).forEach((key, i) => {
     keyMap[i] = key
     promiseArr[i] = promiseObj[key]
