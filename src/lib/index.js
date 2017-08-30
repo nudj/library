@@ -1,5 +1,6 @@
 const deepmerge = require('deepmerge')
 const curry = require('lodash/curry')
+const emailBuilder = require('./functions/email-builder')
 
 const makeSlug = function (name) {
   return name.toLowerCase()
@@ -71,5 +72,6 @@ module.exports = {
   actionMap,
   actionChain,
   actionMapAssign,
-  toQs
+  toQs,
+  emailBuilder
 }
