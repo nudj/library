@@ -34,12 +34,27 @@ describe('emailBuilder', () => {
     expect(result).to.include('Subject: Hello')
   })
 
-  it('should populate the body with custom input', () => {
+  it('should populate the body with custom input at the end of the result', () => {
     const email = {
       body: 'This is an email'
     }
     const result = emailBuilder(email)
-    expect(result).to.include('Body: This is an email')
-    expect(result).to.include('Content-Transfer-Encoding: 7bit')
+    expect(result.slice(email.body.length * -1)).to.equal(email.body)
+  })
+
+  it('should not populate a body header', () => {
+    const email = {
+      body: 'This is an email'
+    }
+    const result = emailBuilder(email)
+    expect(result).to.not.include('Body:')
+  })
+
+  it('should persist any HTML formatting', () => {
+    const email = {
+      body: '<h1>Hello!</h1>'
+    }
+    const result = emailBuilder(email)
+    expect(result).to.include(email.body)
   })
 })
