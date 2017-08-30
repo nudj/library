@@ -7,7 +7,7 @@ const emailBuilder = require('../../lib/functions/email-builder')
 
 chai.use(dirtyChai)
 
-describe.only('Email Builder', () => {
+describe('Email Builder', () => {
   it('should return a string', () => {
     expect(emailBuilder({})).to.be.a('string')
   })
