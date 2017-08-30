@@ -417,4 +417,25 @@ describe('Library', () => {
         })
     })
   })
+  describe('toQs', () => {
+    it('should return a string', () => {
+      expect(library.toQs()).to.be.a('string')
+    })
+    it('should return the key and value in query string format', () => {
+      expect(library.toQs({
+        key: 'value'
+      })).to.equal('key=value')
+    })
+    it('should return multiple key/value pairs separated by an ampersand', () => {
+      expect(library.toQs({
+        key1: 'value1',
+        key2: 'value2'
+      })).to.equal('key1=value1&key2=value2')
+    })
+    it('should encode the query string keys and values', () => {
+      expect(library.toQs({
+        '@': '?'
+      })).to.equal('%40=%3F')
+    })
+  })
 })

@@ -57,6 +57,12 @@ const actionMapAssign = (...actionsArray) => {
   return actionChain(actionsArray.map(actionsObject => actionAccumulator(actionsObject)), {})
 }
 
+const toQs = (filters = {}) => {
+  return Object.keys(filters).map((key) => {
+    return `${encodeURIComponent(key)}=${encodeURIComponent(filters[key])}`
+  }).join('&')
+}
+
 module.exports = {
   makeSlug,
   merge,
@@ -64,5 +70,6 @@ module.exports = {
   addDataKeyValue,
   actionMap,
   actionChain,
-  actionMapAssign
+  actionMapAssign,
+  toQs
 }
