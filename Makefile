@@ -1,30 +1,31 @@
 CWD=$(shell pwd)
+IMAGEDEV:=nudj/library-dev
 BIN:=./node_modules/.bin
 
 .PHONY: build test tdd
 
 build:
 	@docker build \
-		-t test-image \
+		-t $(IMAGEDEV) \
 		.
 
-test:
-	-@docker rm -f test-container 2> /dev/null || true
+ssh:
+	-@docker rm -f library-dev 2> /dev/null || true
 	@docker run --rm -it \
-		--name test-container \
+		--name library-dev \
+		-v $(CWD)/.zshrc:/root/.zshrc \
 		-v $(CWD)/src/lib:/usr/src/lib \
 		-v $(CWD)/src/test:/usr/src/test \
-		test-image
+		-v ${CWD}/src/.npmignore:/usr/src/.npmignore \
+		-v $(CWD)/src/package.json:/usr/src/package.json \
+		$(IMAGEDEV) \
+		/bin/zsh
 
-tdd:
-	-@docker rm -f test-container 2> /dev/null || true
+test:
+	-@docker rm -f library-test 2> /dev/null || true
 	@docker run --rm -it \
-		--name test-container \
-    -v $(CWD)/src/lib:/usr/src/lib \
-    -v $(CWD)/src/test:/usr/src/test \
-		test-image \
-		$(BIN)/nodemon \
-			--quiet \
-			--watch ./ \
-			--delay 250ms \
-			-x '$(BIN)/standard && $(BIN)/mocha test/*.js || exit 1'
+		--name library-test \
+		-v $(CWD)/src/lib:/usr/src/lib \
+		-v $(CWD)/src/test:/usr/src/test \
+		$(IMAGEDEV) \
+		/bin/sh -c './node_modules/.bin/standard && ./node_modules/.bin/mocha --recursive test'
