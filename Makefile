@@ -30,5 +30,8 @@ test:
 		--name library-test \
 		-v $(CWD)/src/lib:/usr/src/lib \
 		-v $(CWD)/src/test:/usr/src/test \
+		-v ${CWD}/src/client.js:/usr/src/client.js \
+		-v ${CWD}/src/index.js:/usr/src/index.js \
+		-v ${CWD}/src/server.js:/usr/src/server.js \
 		$(IMAGEDEV) \
 		/bin/sh -c './node_modules/.bin/standard && ./node_modules/.bin/mocha --recursive test'
