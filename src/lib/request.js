@@ -21,11 +21,11 @@ module.exports = (...args) => {
   console.log((new Date()).toISOString(), 'REQUEST', requestId, ...args)
   return axios(...args)
     .then(response => {
-      console.log((new Date()).toISOString(), 'RESPONSE OK', requestId, ...args, response.data)
+      console.log((new Date()).toISOString(), 'RESPONSE', requestId, ...args, response.data)
       return response.data
     })
     .catch(error => {
-      console.log((new Date()).toISOString(), 'RESPONSE ERROR', requestId, ...args, error)
+      console.error((new Date()).toISOString(), 'RESPONSE', requestId, ...args, error)
       throw error
     })
 }

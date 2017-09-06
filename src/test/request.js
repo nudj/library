@@ -12,7 +12,7 @@ chai.use(dirtyChai)
 const request = require('../lib/request')
 let server
 
-describe('request', () => {
+describe.only('request', () => {
   before(() => {
     server = nock('http://localhost:82/')
   })
@@ -56,5 +56,11 @@ describe('request', () => {
       method: 'post',
       data: { a: 1 }
     })).to.be.fulfilled()
+  })
+
+  it('throws any errors', () => {
+    const someError = new Error('Some error')
+    server.get('/').replyWithError(someError)
+    return expect(request('/')).to.be.rejectedWith(someError)
   })
 })
