@@ -20,7 +20,8 @@
   "dependencies": {
     "axios": "0.16.2",
     "deepmerge": "1.5.0",
-    "mailbuild": "^0.3.7"
+    "mailbuild": "^0.3.7",
+    "shortid": "^2.2.8"
   },
   "devDependencies": {
     "chai": "3.5.0",
