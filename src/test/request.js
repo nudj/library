@@ -12,7 +12,7 @@ chai.use(dirtyChai)
 const request = require('../lib/request')
 let server
 
-describe.only('request', () => {
+describe('request', () => {
   before(() => {
     server = nock('http://localhost:82/')
   })
