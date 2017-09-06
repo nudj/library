@@ -57,4 +57,10 @@ describe('request', () => {
       data: { a: 1 }
     })).to.be.fulfilled()
   })
+
+  it('throws any errors', () => {
+    const someError = new Error('Some error')
+    server.get('/').replyWithError(someError)
+    return expect(request('/')).to.be.rejectedWith(someError)
+  })
 })
