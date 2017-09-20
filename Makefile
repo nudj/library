@@ -28,6 +28,7 @@ test:
 	-@docker rm -f library-test 2> /dev/null || true
 	@docker run --rm -it \
 		--name library-test \
+		-e ENVIRONMENT=test \
 		-v $(CWD)/src/lib:/usr/src/lib \
 		-v $(CWD)/src/test:/usr/src/test \
 		-v ${CWD}/src/client.js:/usr/src/client.js \

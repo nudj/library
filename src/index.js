@@ -6,5 +6,6 @@ module.exports = {
   actionMap: require('./lib/action-map'),
   actionChain: require('./lib/action-chain'),
   actionMapAssign: require('./lib/action-map-assign'),
-  toQs: require('./lib/to-qs')
+  toQs: require('./lib/to-qs'),
+  logger: require('./lib/logger')
 }
