@@ -5,8 +5,10 @@ module.exports = (type, ...args) => {
     warn: 'warn',
     error: 'error'
   }
-  if (!methods[type]) {
-    throw new Error(`Invalid log type: ${type}`)
+  if (process.env.ENVIRONMENT !== 'test') {
+    if (!methods[type]) {
+      throw new Error(`Invalid log type: ${type}`)
+    }
+    console[methods[type]](...args)
   }
-  console[methods[type]](...args)
 }

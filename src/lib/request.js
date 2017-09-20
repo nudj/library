@@ -1,6 +1,8 @@
 const Axios = require('axios')
 const shortid = require('shortid')
 
+const logger = require('./logger')
+
 const config = {
   baseURL: '/',
   headers: {
@@ -13,19 +15,19 @@ try {
     config.baseURL = 'http://localhost:82/'
   }
 } catch (error) {
-  console.log('Browser')
+  logger('info', 'Browser')
 }
 const axios = Axios.create(config)
 module.exports = (...args) => {
   const requestId = shortid.generate()
-  console.log((new Date()).toISOString(), 'REQUEST', requestId, ...args)
+  logger('info', (new Date()).toISOString(), 'REQUEST', requestId, ...args)
   return axios(...args)
     .then(response => {
-      console.log((new Date()).toISOString(), 'RESPONSE', requestId, ...args, response.data)
+      logger('info', (new Date()).toISOString(), 'RESPONSE', requestId, ...args, response.data)
       return response.data
     })
     .catch(error => {
-      console.error((new Date()).toISOString(), 'RESPONSE', requestId, ...args, error)
+      logger('info', (new Date()).toISOString(), 'RESPONSE', requestId, ...args, error)
       throw error
     })
 }
