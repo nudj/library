@@ -21,6 +21,7 @@ ssh:
 		-v ${CWD}/src/index.js:/usr/src/index.js \
 		-v $(CWD)/src/package.json:/usr/src/package.json \
 		-v ${CWD}/src/server.js:/usr/src/server.js \
+		-v ${CWD}/src/request.js:/usr/src/request.js \
 		$(IMAGEDEV) \
 		/bin/zsh
 

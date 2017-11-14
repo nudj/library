@@ -9,12 +9,18 @@ const expect = chai.expect
 chai.use(chaiAsPromised)
 chai.use(dirtyChai)
 
-const request = require('../lib/request')
+const { Unauthorized, NotFound, AppError } = require('../lib/errors')
+const request = require('../request')
 let server
 
 describe('request', () => {
   before(() => {
-    server = nock('http://localhost:82/')
+    server = nock('http://localhost:82/', {
+      reqheaders: {
+        'Accept': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      }
+    })
   })
 
   afterEach(() => {
@@ -31,20 +37,6 @@ describe('request', () => {
     return expect(request('/')).to.be.fulfilled()
   })
 
-  it('adds Accepts header', () => {
-    server.get('/')
-      .matchHeader('Accept', 'application/json')
-      .reply(200)
-    return expect(request('/')).to.be.fulfilled()
-  })
-
-  it('adds X-Requested-With header', () => {
-    server.get('/')
-      .matchHeader('X-Requested-With', 'XMLHttpRequest')
-      .reply(200)
-    return expect(request('/')).to.be.fulfilled()
-  })
-
   it('resolves with result', () => {
     server.get('/').reply(200, 'response')
     return expect(request('/')).to.become('response')
@@ -52,15 +44,27 @@ describe('request', () => {
 
   it('handles posts with data', () => {
     server.post('/', { a: 1 }).reply(200)
-    return expect(request('/', {
-      method: 'post',
-      data: { a: 1 }
-    })).to.be.fulfilled()
+    return expect(
+      request('/', {
+        method: 'post',
+        data: { a: 1 }
+      })
+    ).to.be.fulfilled()
   })
 
-  it('throws any errors', () => {
+  it('throws Unauthorized for 401s', () => {
+    server.get('/').reply(401)
+    return expect(request('/')).to.be.rejectedWith(Unauthorized)
+  })
+
+  it('throws NotFound for 404s', () => {
+    server.get('/').reply(404)
+    return expect(request('/')).to.be.rejectedWith(NotFound)
+  })
+
+  it('throws AppError for any other errors', () => {
     const someError = new Error('Some error')
     server.get('/').replyWithError(someError)
-    return expect(request('/')).to.be.rejectedWith(someError)
+    return expect(request('/')).to.be.rejectedWith(AppError)
   })
 })
