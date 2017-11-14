@@ -1,33 +1,38 @@
 const Axios = require('axios')
 const shortid = require('shortid')
+const get = require('lodash/get')
 
-const logger = require('./logger')
+const { Unauthorized, NotFound, AppError } = require('./errors')
 
 const config = {
   baseURL: '/',
   headers: {
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'X-Requested-With': 'XMLHttpRequest'
   }
 }
-try {
-  if (process.title.includes('node')) {
-    config.baseURL = 'http://localhost:82/'
-  }
-} catch (error) {
-  logger('info', 'Browser')
+if (process.title.includes('node')) {
+  config.baseURL = 'http://localhost:82/'
 }
 const axios = Axios.create(config)
-module.exports = (...args) => {
+module.exports = async (...args) => {
   const requestId = shortid.generate()
-  logger('info', (new Date()).toISOString(), 'REQUEST', requestId, ...args)
-  return axios(...args)
-    .then(response => {
-      logger('info', (new Date()).toISOString(), 'RESPONSE', requestId, ...args, response.data)
-      return response.data
-    })
-    .catch(error => {
-      logger('info', (new Date()).toISOString(), 'RESPONSE', requestId, ...args, error)
-      throw error
-    })
+  try {
+    const response = await axios(...args)
+    return response.data
+  } catch (error) {
+    switch (get(error, 'response.status')) {
+      case 401:
+        throw new Unauthorized(
+          { type: error.response.data },
+          'request',
+          requestId,
+          ...args
+        )
+      case 404:
+        throw new NotFound('request', requestId, ...args)
+      default:
+        throw new AppError('request', requestId, ...args, error.message)
+    }
+  }
 }
