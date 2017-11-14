@@ -6,7 +6,7 @@ const logger = require('./logger')
 const config = {
   baseURL: '/',
   headers: {
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'X-Requested-With': 'XMLHttpRequest'
   }
 }
@@ -20,14 +20,28 @@ try {
 const axios = Axios.create(config)
 module.exports = (...args) => {
   const requestId = shortid.generate()
-  logger('info', (new Date()).toISOString(), 'REQUEST', requestId, ...args)
+  logger('debug', new Date().toISOString(), 'REQUEST', requestId, ...args)
   return axios(...args)
     .then(response => {
-      logger('info', (new Date()).toISOString(), 'RESPONSE', requestId, ...args, response.data)
+      logger(
+        'debug',
+        new Date().toISOString(),
+        'RESPONSE',
+        requestId,
+        ...args,
+        response.data
+      )
       return response.data
     })
     .catch(error => {
-      logger('info', (new Date()).toISOString(), 'RESPONSE', requestId, ...args, error)
+      logger(
+        'debug',
+        new Date().toISOString(),
+        'RESPONSE',
+        requestId,
+        ...args,
+        error
+      )
       throw error
     })
 }
