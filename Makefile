@@ -22,6 +22,7 @@ ssh:
 		-v $(CWD)/src/package.json:/usr/src/package.json \
 		-v ${CWD}/src/server.js:/usr/src/server.js \
 		-v ${CWD}/src/request.js:/usr/src/request.js \
+		-v ${CWD}/src/errors.js:/usr/src/errors.js \
 		$(IMAGEDEV) \
 		/bin/zsh
 
@@ -35,5 +36,6 @@ test:
 		-v ${CWD}/src/client.js:/usr/src/client.js \
 		-v ${CWD}/src/index.js:/usr/src/index.js \
 		-v ${CWD}/src/server.js:/usr/src/server.js \
-		$(IMAGEDEV) \
-		/bin/sh -c './node_modules/.bin/standard && ./node_modules/.bin/mocha --recursive test'
+		-v ${CWD}/src/request.js:/usr/src/request.js \
+		-v ${CWD}/src/errors.js:/usr/src/errors.js \
+		$(IMAGEDEV)

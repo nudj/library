@@ -17,7 +17,7 @@ describe('request', () => {
   before(() => {
     server = nock('http://localhost:82/', {
       reqheaders: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'X-Requested-With': 'XMLHttpRequest'
       }
     })
@@ -53,7 +53,7 @@ describe('request', () => {
   })
 
   it('throws Unauthorized for 401s', () => {
-    server.get('/').reply(401)
+    server.get('/').reply(401, 'UnauthorizedType')
     return expect(request('/')).to.be.rejectedWith(Unauthorized)
   })
 

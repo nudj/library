@@ -1,4 +1,6 @@
-function Redirect ({ url, notification }, ...log) {
+function Redirect (options = {}, ...log) {
+  const { url, notification } = options
+  if (!url) throw new AppError('Redirect requires a `url` option')
   this.url = url
   this.notification = notification
   this.log = log
@@ -14,7 +16,9 @@ NotFound.prototype = Object.create(Error.prototype)
 NotFound.prototype.constructor = NotFound
 NotFound.prototype.name = 'NotFound'
 
-function Unauthorized ({ type }, ...log) {
+function Unauthorized (options = {}, ...log) {
+  const { type } = options
+  if (!type) throw new AppError('Unauthorized requires a `type` option')
   this.type = type
   this.log = log
 }
