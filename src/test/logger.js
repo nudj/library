@@ -23,6 +23,11 @@ describe('logger', () => {
     consoleWarn = sinon.stub(console, 'warn')
     consoleError = sinon.stub(console, 'error')
   })
+  beforeEach(() => {
+    consoleLog.callThrough()
+    consoleWarn.callThrough()
+    consoleError.callThrough()
+  })
   afterEach(() => {
     consoleLog.reset()
     consoleWarn.reset()
