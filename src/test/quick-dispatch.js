@@ -22,7 +22,13 @@ describe('quickDispatch', () => {
     expect(quickDispatch(testAction)).to.be.a('function')
   })
 
-  it('should wrap provided function in a function call', () => {
+  it('returns a nested function which takes the action as an argument', () => {
+    const dispatch = (fn) => fn().type
+    const actionFunction = quickDispatch(testAction)
+    expect(actionFunction(dispatch)).to.equal('TEST_ACTION')
+  })
+
+  it('should wrap provided action in a function call', () => {
     const dispatch = sinon.stub()
     quickDispatch(testAction)(dispatch)
     expect(dispatch).to.be.calledWith(testAction)
