@@ -8,5 +8,6 @@ module.exports = {
   actionMapAssign: require('./lib/action-map-assign'),
   toQs: require('./lib/to-qs'),
   logger: require('./lib/logger'),
-  quickDispatch: require('./lib/quick-dispatch')
+  quickDispatch: require('./lib/quick-dispatch'),
+  errorParser: require('./lib/error-parser')
 }
