@@ -1,3 +1,3 @@
-const quickDispatch = (action) => (dispatch, getState) => dispatch(action)
+const quickDispatch = (action) => (dispatch) => dispatch(action)
 
 module.exports = quickDispatch
