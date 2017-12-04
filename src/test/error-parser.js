@@ -26,6 +26,29 @@ describe('errorParser', () => {
     expect(parseError(serverError)).to.equal('Unable to locate your test')
   })
 
+  it('returns correct error message with spaced splitters', () => {
+    const parseError = errorParser(pageErrors)
+    const serverError = 'SmallErrorType | Slight issue | Invalid stuff happening'
+    expect(parseError(serverError)).to.equal('Please update your testing framework')
+  })
+
+  it('returns correct message even if no default is provided', () => {
+    const parseError = errorParser(pageErrors)
+    const serverError = 'SmallErrorType | Slight issue'
+    expect(parseError(serverError)).to.equal('Please update your testing framework')
+  })
+
+  it('returns undefined if no message key is provided', () => {
+    const parseError = errorParser(pageErrors)
+    const serverError = 'SmallErrorType'
+    expect(parseError(serverError)).to.be.undefined()
+  })
+
+  it('returns undefined if no server error is passed', () => {
+    const parseError = errorParser(pageErrors)
+    expect(parseError()).to.be.undefined()
+  })
+
   it('returns default error message if error type is not found', () => {
     const parseError = errorParser(pageErrors)
     const serverError = 'BadType|Invalid entry|Test not found'

@@ -1,5 +1,8 @@
 const parseErrorMessage = (pageErrors, serverError) => {
-  const [type, key, defaultMessage] = serverError.split('|')
+  if (!serverError) return
+
+  const errors = serverError.split('|').map(errorSegment => errorSegment.trim())
+  const [type, key, defaultMessage] = errors
 
   if (!pageErrors[type] || !pageErrors[type][key]) {
     return defaultMessage
