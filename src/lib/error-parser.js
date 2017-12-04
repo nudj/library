@@ -8,6 +8,8 @@ const parseErrorMessage = (pageErrors, serverError) => {
   return pageErrors[type][key]
 }
 
-const errorParser = (pageErrors = {}) => (serverError) => parseErrorMessage(pageErrors, serverError)
+const errorParser = (pageErrors = {}) => {
+  return (serverError) => parseErrorMessage(pageErrors, serverError)
+}
 
 module.exports = errorParser
