@@ -26,22 +26,18 @@ describe('errorParser', () => {
     expect(parseError(serverError)).to.equal('Unable to locate your test')
   })
 
-  it('returns correct error message with spaced splitters', () => {
+  it('throws error if no default is provided', () => {
     const parseError = errorParser(pageErrors)
-    const serverError = 'SmallErrorType | Slight issue | Invalid stuff happening'
-    expect(parseError(serverError)).to.equal('Please update your testing framework')
+    const serverError = 'SmallErrorType|Slight issue'
+    const parser = () => parseError(serverError)
+    expect(parser).to.throw(Error, 'Invalid server error format')
   })
 
-  it('returns correct message even if no default is provided', () => {
-    const parseError = errorParser(pageErrors)
-    const serverError = 'SmallErrorType | Slight issue'
-    expect(parseError(serverError)).to.equal('Please update your testing framework')
-  })
-
-  it('returns undefined if no message key is provided', () => {
+  it('throws error if no message key is provided', () => {
     const parseError = errorParser(pageErrors)
     const serverError = 'SmallErrorType'
-    expect(parseError(serverError)).to.be.undefined()
+    const parser = () => parseError(serverError)
+    expect(parser).to.throw(Error, 'Invalid server error format')
   })
 
   it('returns undefined if no server error is passed', () => {
@@ -61,13 +57,13 @@ describe('errorParser', () => {
     expect(parseError(serverError)).to.equal('Nothing to see here')
   })
 
-  it('returns default message if no pageErrors are provided', () => {
+  it('returns default error message if no pageErrors are provided', () => {
     const parseError = errorParser()
     const serverError = 'BigErrorType|Invalid entry|Error: Test too awesome!'
     expect(parseError(serverError)).to.equal('Error: Test too awesome!')
   })
 
-  it('returns default if no pageErrors are provided', () => {
+  it('returns default error message if no pageErrors are provided', () => {
     const parseError = errorParser()
     const serverError = 'SmallErrorType|Slight issue|Invalid stuff happening'
     expect(parseError(serverError)).to.equal('Invalid stuff happening')

@@ -1,18 +1,19 @@
 const parseErrorMessage = (pageErrors, serverError) => {
   if (!serverError) return
 
-  const errors = serverError.split('|').map(errorSegment => errorSegment.trim())
-  const [type, key, defaultMessage] = errors
+  const [type, key, defaultMessage] = serverError.split('|')
 
-  if (!pageErrors[type] || !pageErrors[type][key]) {
-    return defaultMessage
+  if (!defaultMessage) {
+    throw new Error('Invalid server error format')
   }
 
-  return pageErrors[type][key]
+  return !pageErrors[type] || !pageErrors[type][key]
+    ? defaultMessage
+    : pageErrors[type][key]
 }
 
 const errorParser = (pageErrors = {}) => {
-  return (serverError) => parseErrorMessage(pageErrors, serverError)
+  return serverError => parseErrorMessage(pageErrors, serverError)
 }
 
 module.exports = errorParser
