@@ -7,9 +7,7 @@ const parseErrorMessage = (pageErrors, serverError) => {
     throw new Error('Invalid server error format')
   }
 
-  return !pageErrors[type] || !pageErrors[type][key]
-    ? defaultMessage
-    : pageErrors[type][key]
+  return (pageErrors[type] && pageErrors[type][key]) || defaultMessage
 }
 
 const errorParser = (pageErrors = {}) => {
