@@ -7,5 +7,7 @@ module.exports = {
   actionChain: require('./lib/action-chain'),
   actionMapAssign: require('./lib/action-map-assign'),
   toQs: require('./lib/to-qs'),
-  logger: require('./lib/logger')
+  logger: require('./lib/logger'),
+  quickDispatch: require('./lib/quick-dispatch'),
+  errorParser: require('./lib/error-parser')
 }
