@@ -25,6 +25,12 @@ describe('errors', () => {
       })
       expect(error).to.have.property('name', 'Redirect')
     })
+    it('has the correct message', () => {
+      const error = new Redirect({
+        url: 'someurl'
+      }, 'someMessage')
+      expect(error).to.have.property('message', 'someMessage')
+    })
     it('has notification property if passed in options', () => {
       const error = new Redirect({
         url: 'someurl',
@@ -37,12 +43,32 @@ describe('errors', () => {
         {
           url: 'someurl'
         },
+        'someMessage',
         1,
         2,
         3
       )
       expect(error).to.have.property('log')
-      expect(error.log).to.deep.equal([1, 2, 3])
+      expect(error.log).to.deep.equal([[1, 2, 3]])
+    })
+
+    describe('.addBoundaryLogs', () => {
+      it('should rethrow the error', () => {
+        const error = new Redirect({
+          url: 'someurl'
+        })
+        expect(() => error.addBoundaryLogs()).to.throw(error)
+      })
+      it('should append args to the log', () => {
+        const error = new Redirect({
+          url: 'someurl'
+        }, 'someMessage', 1, 2, 3)
+        try {
+          error.addBoundaryLogs(4, 5, 6)
+        } catch (newError) {
+          expect(newError.log).to.deep.equal([[1, 2, 3], [4, 5, 6]])
+        }
+      })
     })
   })
   describe('NotFound', () => {
@@ -50,10 +76,29 @@ describe('errors', () => {
       const error = new NotFound()
       expect(error).to.have.property('name', 'NotFound')
     })
+    it('has the correct name', () => {
+      const error = new NotFound('someMessage')
+      expect(error).to.have.property('message', 'someMessage')
+    })
     it('has log property if extra params passed in', () => {
-      const error = new NotFound(1, 2, 3)
+      const error = new NotFound('someMessage', 1, 2, 3)
       expect(error).to.have.property('log')
-      expect(error.log).to.deep.equal([1, 2, 3])
+      expect(error.log).to.deep.equal([[1, 2, 3]])
+    })
+
+    describe('.addBoundaryLogs', () => {
+      it('should rethrow the error', () => {
+        const error = new NotFound('someMessage', 1, 2, 3)
+        expect(() => error.addBoundaryLogs()).to.throw(error)
+      })
+      it('should append args to the log', () => {
+        const error = new NotFound('someMessage', 1, 2, 3)
+        try {
+          error.addBoundaryLogs(4, 5, 6)
+        } catch (newError) {
+          expect(newError.log).to.deep.equal([[1, 2, 3], [4, 5, 6]])
+        }
+      })
     })
   })
   describe('Unauthorized', () => {
@@ -72,17 +117,37 @@ describe('errors', () => {
       })
       expect(error).to.have.property('name', 'Unauthorized')
     })
+    it('has the correct message', () => {
+      const error = new Unauthorized({
+        type: 'sometype'
+      }, 'someMessage')
+      expect(error).to.have.property('message', 'someMessage')
+    })
     it('has log property if extra params passed in', () => {
-      const error = new Unauthorized(
-        {
-          type: 'sometype'
-        },
-        1,
-        2,
-        3
-      )
+      const error = new Unauthorized({
+        type: 'sometype'
+      }, 'someMessage', 1, 2, 3)
       expect(error).to.have.property('log')
-      expect(error.log).to.deep.equal([1, 2, 3])
+      expect(error.log).to.deep.equal([[1, 2, 3]])
+    })
+
+    describe('.addBoundaryLogs', () => {
+      it('should rethrow the error', () => {
+        const error = new Unauthorized({
+          type: 'sometype'
+        }, 'someMessage', 1, 2, 3)
+        expect(() => error.addBoundaryLogs()).to.throw(error)
+      })
+      it('should append args to the log', () => {
+        const error = new Unauthorized({
+          type: 'sometype'
+        }, 'someMessage', 1, 2, 3)
+        try {
+          error.addBoundaryLogs(4, 5, 6)
+        } catch (newError) {
+          expect(newError.log).to.deep.equal([[1, 2, 3], [4, 5, 6]])
+        }
+      })
     })
   })
   describe('AppError', () => {
@@ -90,10 +155,29 @@ describe('errors', () => {
       const error = new AppError()
       expect(error).to.have.property('name', 'AppError')
     })
+    it('has the correct message', () => {
+      const error = new AppError('someMessage')
+      expect(error).to.have.property('message', 'someMessage')
+    })
     it('has log property if extra params passed in', () => {
-      const error = new AppError(1, 2, 3)
+      const error = new AppError('someMessage', 1, 2, 3)
       expect(error).to.have.property('log')
-      expect(error.log).to.deep.equal([1, 2, 3])
+      expect(error.log).to.deep.equal([[1, 2, 3]])
+    })
+
+    describe('.addBoundaryLogs', () => {
+      it('should rethrow the error', () => {
+        const error = new AppError('someMessage', 1, 2, 3)
+        expect(() => error.addBoundaryLogs()).to.throw(error)
+      })
+      it('should append args to the log', () => {
+        const error = new AppError('someMessage', 1, 2, 3)
+        try {
+          error.addBoundaryLogs(4, 5, 6)
+        } catch (newError) {
+          expect(newError.log).to.deep.equal([[1, 2, 3], [4, 5, 6]])
+        }
+      })
     })
   })
 })

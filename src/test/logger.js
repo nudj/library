@@ -61,9 +61,18 @@ describe('logger', () => {
     expect(consoleError).to.have.been.called()
   })
 
+  it('passes through timestamp as first argument to console.log', () => {
+    logger('info', 1, 2, 3)
+    const firstArg = consoleLog.firstCall.args[0]
+    const now = new Date()
+    const timestamp = new Date(firstArg)
+    expect(timestamp).to.be.within(now - 500, now)
+  })
+
   it('passes through any additional args to console.log', () => {
     logger('info', 1, 2, 3)
-    expect(consoleLog).to.have.been.calledWith(1, 2, 3)
+    const restArgs = consoleLog.firstCall.args.slice(1)
+    expect(restArgs).to.deep.equal([1, 2, 3])
   })
 
   it('should throw for invalid log type', () => {

@@ -25,14 +25,15 @@ module.exports = async (...args) => {
       case 401:
         throw new Unauthorized(
           { type: error.response.data },
+          error.message,
           'request',
           requestId,
           ...args
         )
       case 404:
-        throw new NotFound('request', requestId, ...args)
+        throw new NotFound(error.message, 'request', requestId, ...args)
       default:
-        throw new AppError('request', requestId, ...args, error.message)
+        throw new AppError(error.message, 'request', requestId, ...args)
     }
   }
 }
