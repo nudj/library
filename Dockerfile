@@ -3,4 +3,4 @@ RUN mkdir -p /usr/src && apk update && apk add zsh git make && mkdir /root/.zsh 
 WORKDIR /usr/src
 COPY src /usr/src
 RUN npm i
-CMD ./node_modules/.bin/standard && ./node_modules/.bin/mocha --recursive
+CMD ./node_modules/.bin/standard --verbose && ./node_modules/.bin/mocha --recursive

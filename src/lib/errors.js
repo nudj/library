@@ -1,37 +1,44 @@
-function Redirect (options = {}, ...log) {
-  const { url, notification } = options
-  if (!url) throw new AppError('Redirect requires a `url` option')
-  this.url = url
-  this.notification = notification
-  this.log = log
+class BoundaryError extends Error {
+  constructor (name, message, ...log) {
+    super(message)
+    this.name = name
+    this.log = [log]
+  }
+  addBoundaryLogs (...logs) {
+    this.log.push(logs)
+    throw this // eslint-disable-line no-throw-literal
+  }
 }
-Redirect.prototype = Object.create(Error.prototype)
-Redirect.prototype.constructor = Redirect
-Redirect.prototype.name = 'Redirect'
 
-function NotFound (...log) {
-  this.log = log
+class Redirect extends BoundaryError {
+  constructor (options = {}, message, ...log) {
+    const { url, notification } = options
+    if (!url) throw new AppError('Redirect requires a `url` option')
+    super('Redirect', message, ...log)
+    this.url = url
+    this.notification = notification
+  }
 }
-NotFound.prototype = Object.create(Error.prototype)
-NotFound.prototype.constructor = NotFound
-NotFound.prototype.name = 'NotFound'
 
-function Unauthorized (options = {}, ...log) {
-  const { type } = options
-  if (!type) throw new AppError('Unauthorized requires a `type` option')
-  this.type = type
-  this.log = log
+class NotFound extends BoundaryError {
+  constructor (message, ...log) {
+    super('NotFound', message, ...log)
+  }
 }
-Unauthorized.prototype = Object.create(Error.prototype)
-Unauthorized.prototype.constructor = Unauthorized
-Unauthorized.prototype.name = 'Unauthorized'
 
-function AppError (...log) {
-  this.log = log
+class Unauthorized extends BoundaryError {
+  constructor (options, message, ...log) {
+    if (!options || !options.type) throw new AppError('Unauthorized requires a `type` option')
+    super('Unauthorized', message, ...log)
+    this.type = options.type
+  }
 }
-AppError.prototype = Object.create(Error.prototype)
-AppError.prototype.constructor = AppError
-AppError.prototype.name = 'AppError'
+
+class AppError extends BoundaryError {
+  constructor (message, ...log) {
+    super('AppError', message, ...log)
+  }
+}
 
 module.exports = {
   Redirect,
