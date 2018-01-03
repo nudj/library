@@ -4,10 +4,6 @@ class BoundaryError extends Error {
     this.name = name
     this.log = [log]
   }
-  addBoundaryLogs (...logs) {
-    this.log.push(logs)
-    throw this // eslint-disable-line no-throw-literal
-  }
 }
 
 class Redirect extends BoundaryError {
@@ -40,9 +36,15 @@ class AppError extends BoundaryError {
   }
 }
 
+function logThenThrow (error, ...log) {
+  error.log = error.log ? error.log.concat([log]) : [log]
+  throw error
+}
+
 module.exports = {
   Redirect,
   NotFound,
   Unauthorized,
-  AppError
+  AppError,
+  logThenThrow
 }
