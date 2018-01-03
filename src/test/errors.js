@@ -6,7 +6,13 @@ const expect = chai.expect
 
 chai.use(dirtyChai)
 
-const { Redirect, Unauthorized, NotFound, AppError } = require('../errors')
+const {
+  Redirect,
+  Unauthorized,
+  NotFound,
+  AppError,
+  logThenThrow
+} = require('../errors')
 
 describe('errors', () => {
   describe('Redirect', () => {
@@ -51,25 +57,6 @@ describe('errors', () => {
       expect(error).to.have.property('log')
       expect(error.log).to.deep.equal([[1, 2, 3]])
     })
-
-    describe('.addBoundaryLogs', () => {
-      it('should rethrow the error', () => {
-        const error = new Redirect({
-          url: 'someurl'
-        })
-        expect(() => error.addBoundaryLogs()).to.throw(error)
-      })
-      it('should append args to the log', () => {
-        const error = new Redirect({
-          url: 'someurl'
-        }, 'someMessage', 1, 2, 3)
-        try {
-          error.addBoundaryLogs(4, 5, 6)
-        } catch (newError) {
-          expect(newError.log).to.deep.equal([[1, 2, 3], [4, 5, 6]])
-        }
-      })
-    })
   })
   describe('NotFound', () => {
     it('has the correct name', () => {
@@ -84,21 +71,6 @@ describe('errors', () => {
       const error = new NotFound('someMessage', 1, 2, 3)
       expect(error).to.have.property('log')
       expect(error.log).to.deep.equal([[1, 2, 3]])
-    })
-
-    describe('.addBoundaryLogs', () => {
-      it('should rethrow the error', () => {
-        const error = new NotFound('someMessage', 1, 2, 3)
-        expect(() => error.addBoundaryLogs()).to.throw(error)
-      })
-      it('should append args to the log', () => {
-        const error = new NotFound('someMessage', 1, 2, 3)
-        try {
-          error.addBoundaryLogs(4, 5, 6)
-        } catch (newError) {
-          expect(newError.log).to.deep.equal([[1, 2, 3], [4, 5, 6]])
-        }
-      })
     })
   })
   describe('Unauthorized', () => {
@@ -130,25 +102,6 @@ describe('errors', () => {
       expect(error).to.have.property('log')
       expect(error.log).to.deep.equal([[1, 2, 3]])
     })
-
-    describe('.addBoundaryLogs', () => {
-      it('should rethrow the error', () => {
-        const error = new Unauthorized({
-          type: 'sometype'
-        }, 'someMessage', 1, 2, 3)
-        expect(() => error.addBoundaryLogs()).to.throw(error)
-      })
-      it('should append args to the log', () => {
-        const error = new Unauthorized({
-          type: 'sometype'
-        }, 'someMessage', 1, 2, 3)
-        try {
-          error.addBoundaryLogs(4, 5, 6)
-        } catch (newError) {
-          expect(newError.log).to.deep.equal([[1, 2, 3], [4, 5, 6]])
-        }
-      })
-    })
   })
   describe('AppError', () => {
     it('has the correct name', () => {
@@ -164,20 +117,31 @@ describe('errors', () => {
       expect(error).to.have.property('log')
       expect(error.log).to.deep.equal([[1, 2, 3]])
     })
-
-    describe('.addBoundaryLogs', () => {
-      it('should rethrow the error', () => {
-        const error = new AppError('someMessage', 1, 2, 3)
-        expect(() => error.addBoundaryLogs()).to.throw(error)
-      })
-      it('should append args to the log', () => {
-        const error = new AppError('someMessage', 1, 2, 3)
-        try {
-          error.addBoundaryLogs(4, 5, 6)
-        } catch (newError) {
-          expect(newError.log).to.deep.equal([[1, 2, 3], [4, 5, 6]])
-        }
-      })
+  })
+  describe('logThenThrow', () => {
+    it('should rethrow the error that is passed in', () => {
+      const error = new Error('some error')
+      expect(() => logThenThrow(error)).to.throw(error)
+    })
+    it('should add rest params as array to log property', () => {
+      const error = new Error('some error')
+      try {
+        logThenThrow(error, 1, 2, 3, 'something to log')
+      } catch (error) {
+        expect(error.log).to.deep.equal([[1, 2, 3, 'something to log']])
+      }
+    })
+    it('should append new array to log property if already exists', () => {
+      const error = new Error('some error')
+      error.log = [['this already exists']]
+      try {
+        logThenThrow(error, 1, 2, 3, 'something to log')
+      } catch (error) {
+        expect(error.log).to.deep.equal([
+          ['this already exists'],
+          [1, 2, 3, 'something to log']
+        ])
+      }
     })
   })
 })
