@@ -1,13 +1,14 @@
 module.exports = {
+  actionChain: require('./lib/action-chain'),
+  actionMap: require('./lib/action-map'),
+  actionMapAssign: require('./lib/action-map-assign'),
+  addDataKeyValue: require('./lib/add-data-key-value'),
+  errorParser: require('./lib/error-parser'),
+  getFirstNonNil: require('./lib/get-first-non-nil'),
+  logger: require('./lib/logger'),
   makeSlug: require('./lib/make-slug'),
   merge: require('./lib/merge'),
   promiseMap: require('./lib/promise-map'),
-  addDataKeyValue: require('./lib/add-data-key-value'),
-  actionMap: require('./lib/action-map'),
-  actionChain: require('./lib/action-chain'),
-  actionMapAssign: require('./lib/action-map-assign'),
-  toQs: require('./lib/to-qs'),
-  logger: require('./lib/logger'),
   quickDispatch: require('./lib/quick-dispatch'),
-  errorParser: require('./lib/error-parser')
+  toQs: require('./lib/to-qs')
 }
