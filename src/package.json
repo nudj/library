@@ -1,6 +1,6 @@
 {
   "name": "@nudj/library",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Nudj Code Library",
   "main": "index.js",
   "repository": {
@@ -18,21 +18,21 @@
   },
   "homepage": "https://github.com/nudj/library#readme",
   "dependencies": {
-    "axios": "0.16.2",
-    "deepmerge": "1.5.0",
+    "axios": "^0.16.2",
+    "deepmerge": "^1.5.0",
     "mailbuild": "^0.3.7",
     "shortid": "^2.2.8"
   },
   "devDependencies": {
-    "chai": "3.5.0",
-    "chai-as-promised": "7.1.1",
-    "dirty-chai": "1.2.2",
-    "mocha": "3.2.0",
-    "nock": "9.0.13",
-    "nodemon": "1.11.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^7.1.1",
+    "dirty-chai": "^1.2.2",
+    "mocha": "^3.2.0",
+    "nock": "^9.1.6",
+    "nodemon": "^1.11.0",
     "sinon": "^3.2.1",
     "sinon-chai": "^2.13.0",
-    "standard": "9.0.1"
+    "standard": "^9.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
