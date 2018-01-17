@@ -10,5 +10,6 @@ module.exports = {
   merge: require('./lib/merge'),
   promiseMap: require('./lib/promise-map'),
   quickDispatch: require('./lib/quick-dispatch'),
+  renderSimpleTemplate: require('./lib/render-simple-template'),
   toQs: require('./lib/to-qs')
 }
