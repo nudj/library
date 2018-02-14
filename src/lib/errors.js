@@ -1,9 +1,9 @@
 class BoundaryError extends Error {
-  constructor (name, options) {
+  constructor (name, options = {}) {
     super(options.message || 'Something went wrong')
     this.name = name
     this.code = options.code || 'GENERIC'
-    this.log = []
+    this.log = options.log || []
   }
 }
 
@@ -25,8 +25,11 @@ class NotFound extends BoundaryError {
 
 class Unauthorized extends BoundaryError {
   constructor (options) {
-    if (!options || !options.code) throw new AppError('Unauthorized requires a `type` option')
+    if (!options || !options.type) {
+      throw new AppError({ message: 'Unauthorized requires a `type` option' })
+    }
     super('Unauthorized', options)
+    this.type = options.type
   }
 }
 
@@ -37,7 +40,7 @@ class AppError extends BoundaryError {
 }
 
 function logThenThrow (error, ...log) {
-  // error.log = error.log ? error.log.concat([log]) : [log]
+  error.log = error.log ? error.log.concat([log]) : [log]
   throw error
 }
 
