@@ -1,43 +1,43 @@
 class BoundaryError extends Error {
-  constructor (name, message, ...log) {
-    super(message)
+  constructor (name, options) {
+    super(options.message || 'Something went wrong')
     this.name = name
-    this.log = [log]
+    this.code = options.code || 'GENERIC'
+    this.log = []
   }
 }
 
 class Redirect extends BoundaryError {
-  constructor (options = {}, message, ...log) {
+  constructor (options = {}) {
     const { url, notification } = options
     if (!url) throw new AppError('Redirect requires a `url` option')
-    super('Redirect', message, ...log)
+    super('Redirect', options)
     this.url = url
     this.notification = notification
   }
 }
 
 class NotFound extends BoundaryError {
-  constructor (message, ...log) {
-    super('NotFound', message, ...log)
+  constructor (options) {
+    super('NotFound', options)
   }
 }
 
 class Unauthorized extends BoundaryError {
-  constructor (options, message, ...log) {
-    if (!options || !options.type) throw new AppError('Unauthorized requires a `type` option')
-    super('Unauthorized', message, ...log)
-    this.type = options.type
+  constructor (options) {
+    if (!options || !options.code) throw new AppError('Unauthorized requires a `type` option')
+    super('Unauthorized', options)
   }
 }
 
 class AppError extends BoundaryError {
-  constructor (message, ...log) {
-    super('AppError', message, ...log)
+  constructor (options) {
+    super('AppError', options)
   }
 }
 
 function logThenThrow (error, ...log) {
-  error.log = error.log ? error.log.concat([log]) : [log]
+  // error.log = error.log ? error.log.concat([log]) : [log]
   throw error
 }
 
