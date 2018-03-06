@@ -1,4 +1,5 @@
 # library
+[![Codefresh build status]( https://g.codefresh.io/api/badges/build?repoOwner=nudj&repoName=library&branch=develop&pipelineName=library&accountName=collingo&key=eyJhbGciOiJIUzI1NiJ9.NThhZDVhYzdhOGU4YWUwMTAwMzQ4MTcz.LswrznCGW0BHHD1jCDCg-EWQm_-4_j0qwWCvUTZcCYA&type=cf-1)]( https://g.codefresh.io/repositories/nudj/library/builds?filter=trigger:build;branch:develop;service:5964e3c80d1bc60001d1b686~library)
 
 Nudj shared code library
 
