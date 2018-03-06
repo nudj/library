@@ -1,3 +1,5 @@
+// NB: In use in production - DO NOT EDIT
+
 const crypto = require('crypto')
 
 const generateHash = (input) => crypto
