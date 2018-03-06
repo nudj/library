@@ -11,5 +11,6 @@ module.exports = {
   promiseMap: require('./lib/promise-map'),
   quickDispatch: require('./lib/quick-dispatch'),
   renderSimpleTemplate: require('./lib/render-simple-template'),
-  toQs: require('./lib/to-qs')
+  toQs: require('./lib/to-qs'),
+  generateId: require('./lib/hash/generate-id')
 }
