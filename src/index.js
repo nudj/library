@@ -12,6 +12,5 @@ module.exports = {
   quickDispatch: require('./lib/quick-dispatch'),
   renderSimpleTemplate: require('./lib/render-simple-template'),
   toQs: require('./lib/to-qs'),
-  generateId: require('./lib/hash/generate-id'),
-  constants: require('./lib/constants')
+  generateId: require('./lib/hash/generate-id')
 }
