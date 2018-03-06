@@ -1,3 +1,5 @@
+// NB: In use in production - DO NOT EDIT
+
 const generateHash = require('./generate-hash')
 const { idTypes } = require('../constants')
 
