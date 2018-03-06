@@ -1,5 +1,5 @@
 const generateHash = require('./generate-hash')
-const { idTypes } = require('./constants')
+const { idTypes } = require('../constants')
 
 const { COMPANY, ROLE, PERSON, CONNECTION } = idTypes
 
