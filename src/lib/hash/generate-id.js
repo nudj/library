@@ -11,8 +11,8 @@ const generateIdByKey = (type, key) => (object) => {
 }
 
 const generateIdForConnection = (object) => {
-  if (!object.email || !object.from) throw new Error('Invalid connection')
-  return generateHash(`${object.email}.${object.from}`)
+  if (!object.person || !object.from) throw new Error('Invalid connection')
+  return generateHash(`${object.person}.${object.from}`)
 }
 
 const idGenerators = {
@@ -23,8 +23,7 @@ const idGenerators = {
 }
 
 const generateId = (type, object) => {
-  if (!type && !object) return generateHash()
-  if (!idGenerators[type]) throw new Error(`Unrecognised type: ${type}`)
+  if (!type || !object || !idGenerators[type]) return generateHash()
 
   return idGenerators[type](object)
 }

@@ -182,14 +182,74 @@ describe('generateId', () => {
     })
   })
 
+  describe('for type `connection`', () => {
+    it('should generate a hash id', () => {
+      const connections = [
+        {
+          from: 'person5',
+          person: 'person1'
+        }
+      ]
+      const hash = generateId('connection', connections[0])
+      expect(hash).to.exist()
+      expect(hash).to.be.a('string')
+    })
+
+    it('should always generate the hash based on input', () => {
+      const connections = [
+        {
+          from: 'person5',
+          person: 'person1'
+        }
+      ]
+      const hash = generateId('connection', connections[0])
+      const secondHash = generateId('connection', connections[0])
+      expect(hash).to.exist()
+      expect(hash).to.be.a('string')
+      expect(secondHash).to.exist()
+      expect(secondHash).to.be.a('string')
+      expect(secondHash).to.equal(hash)
+    })
+
+    it('should generate different values for different inputs', () => {
+      const connections = [
+        {
+          from: 'person5',
+          person: 'person1'
+        },
+        {
+          from: 'person99',
+          person: 'person101'
+        }
+      ]
+      const firstId = generateId('connection', connections[0])
+      const secondId = generateId('connection', connections[1])
+      expect(firstId).to.exist()
+      expect(firstId).to.be.a('string')
+      expect(secondId).to.exist()
+      expect(secondId).to.be.a('string')
+      expect(firstId).to.not.equal(secondId)
+    })
+
+    it('should throw error if passed invalid data', () => {
+      const badData = {
+        from: null,
+        person: 'person4'
+      }
+      expect(() => generateId('connection', badData)).to.throw('Invalid connection')
+    })
+  })
+
   describe('for unrecognised type', () => {
-    it('throws an error', () => {
-      expect(() => generateId('goobz', {})).to.throw('Unrecognised type: goobz')
+    it('should generate a generic random hash', () => {
+      const hash = generateId('goobz', { name: 'things' })
+      expect(hash).to.exist()
+      expect(hash).to.be.a('string')
     })
   })
 
   describe('for no provided type', () => {
-    it('generates a generic random hash', () => {
+    it('should generate a generic random hash', () => {
       const hash = generateId()
       expect(hash).to.exist()
       expect(hash).to.be.a('string')
