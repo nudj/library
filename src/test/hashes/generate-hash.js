@@ -2,7 +2,7 @@
 const chai = require('chai')
 const expect = chai.expect
 
-const { generateHash } = require('../../lib/hash')
+const generateHash = require('../../lib/hash/generate-hash')
 
 describe('generateHash', () => {
   describe('with input', () => {
