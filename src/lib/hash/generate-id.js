@@ -13,12 +13,16 @@ module.exports = (cryptoAlgorithm) => {
     .digest('hex')
 
   const generateIdByKey = (type, key) => (object) => {
-    if (!object[key]) throw new Error(`Invalid ${type}`)
+    if (!object[key]) {
+      throw new Error(`Unable to generate id for ${type} with input ${JSON.stringify(object)}`)
+    }
     return generateHash(object[key])
   }
 
   const generateIdForConnection = (object) => {
-    if (!object.person || !object.from) throw new Error('Invalid connection')
+    if (!object.person || !object.from) {
+      throw new Error(`Unable to generate id for connection with input ${JSON.stringify(object)}`)
+    }
     return generateHash(`${object.person}.${object.from}`)
   }
 
