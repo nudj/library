@@ -60,7 +60,9 @@ describe('generateId', () => {
       const badData = {
         name: null
       }
-      expect(() => generateId('company', badData)).to.throw('Invalid company')
+      expect(
+        () => generateId('company', badData)
+      ).to.throw('Unable to generate id for company with input {"name":null}')
     })
   })
 
@@ -119,7 +121,9 @@ describe('generateId', () => {
       const badData = {
         name: null
       }
-      expect(() => generateId('role', badData)).to.throw('Invalid role')
+      expect(
+        () => generateId('role', badData)
+      ).to.throw('Unable to generate id for role with input {"name":null}')
     })
   })
 
@@ -178,7 +182,9 @@ describe('generateId', () => {
       const badData = {
         email: null
       }
-      expect(() => generateId('person', badData)).to.throw('Invalid person')
+      expect(
+        () => generateId('person', badData)
+      ).to.throw('Unable to generate id for person with input {"email":null}')
     })
   })
 
@@ -236,7 +242,9 @@ describe('generateId', () => {
         from: null,
         person: 'person4'
       }
-      expect(() => generateId('connection', badData)).to.throw('Invalid connection')
+      expect(
+        () => generateId('connection', badData)
+      ).to.throw('Unable to generate id for connection with input {"from":null,"person":"person4"}')
     })
   })
 
