@@ -1,23 +1,24 @@
 module.exports = {
-  // Leads
-  createLead: require('./lib/leads/create'),
-  getLeadBy: require('./lib/leads/get'),
-  updateLead: require('./lib/leads/update'),
-  getOrCreateLead: require('./lib/leads/get-or-create'),
-  convertLeadToUser: require('./lib/leads/convert-to-user'),
-  tagLead: require('./lib/leads/tag'),
-
-  // Users
-  createUser: require('./lib/users/create'),
-  getUserBy: require('./lib/users/get'),
-  getOrCreateUser: require('./lib/users/get-or-create'),
-  updateUser: require('./lib/users/update'),
-  logUserEvent: require('./lib/users/log-event'),
-  tagUser: require('./lib/users/tag'),
-
-  // Companies
-  getCompanyBy: require('./lib/companies/get'),
-  createCompany: require('./lib/companies/create'),
-  updateCompany: require('./lib/companies/update'),
-  getOrCreateCompany: require('./lib/companies/get-or-create')
+  lead: {
+    create: require('./lib/leads/create'),
+    getBy: require('./lib/leads/get'),
+    update: require('./lib/leads/update'),
+    getOrCreate: require('./lib/leads/get-or-create'),
+    convertToUser: require('./lib/leads/convert-to-user'),
+    tag: require('./lib/leads/tag')
+  },
+  user: {
+    create: require('./lib/users/create'),
+    getBy: require('./lib/users/get'),
+    update: require('./lib/users/update'),
+    getOrCreate: require('./lib/users/get-or-create'),
+    logEvent: require('./lib/users/log-event'),
+    tag: require('./lib/users/tag')
+  },
+  companies: {
+    getBy: require('./lib/companies/get'),
+    create: require('./lib/companies/create'),
+    update: require('./lib/companies/update'),
+    getOrCreate: require('./lib/companies/get-or-create')
+  }
 }
