@@ -19,8 +19,11 @@
   "homepage": "https://github.com/nudj/library#readme",
   "dependencies": {
     "axios": "^0.16.2",
+    "date-fns": "^1.29.0",
     "deepmerge": "^1.5.0",
+    "intercom-client": "^2.9.4",
     "mailbuild": "^0.3.7",
+    "proxyquire": "^2.0.1",
     "shortid": "^2.2.8"
   },
   "devDependencies": {

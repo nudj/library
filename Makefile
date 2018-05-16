@@ -13,6 +13,7 @@ ssh:
 	-@docker rm -f library-dev 2> /dev/null || true
 	@docker run --rm -it \
 		--name library-dev \
+		--env-file $(CWD)/.env \
 		-v $(CWD)/.zshrc:/root/.zshrc \
 		-v $(CWD)/src/lib:/usr/src/lib \
 		-v $(CWD)/src/test:/usr/src/test \
@@ -30,6 +31,7 @@ test:
 	-@docker rm -f library-test 2> /dev/null || true
 	@docker run --rm -it \
 		--name library-test \
+		--env-file $(CWD)/.env \
 		-e ENVIRONMENT=test \
 		-v $(CWD)/src/lib:/usr/src/lib \
 		-v $(CWD)/src/test:/usr/src/test \
@@ -44,6 +46,7 @@ tdd:
 	-@docker rm -f library-test 2> /dev/null || true
 	@docker run --rm -it \
 		--name library-test \
+		--env-file $(CWD)/.env \
 		-e ENVIRONMENT=test \
 		-v $(CWD)/src/lib:/usr/src/lib \
 		-v $(CWD)/src/test:/usr/src/test \
