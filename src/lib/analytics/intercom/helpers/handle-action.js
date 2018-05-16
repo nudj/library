@@ -7,7 +7,6 @@ const handleAction = (action) => async (...args) => {
     const result = await action(...args)
     return !isNil(result) ? result : null
   } catch (error) {
-    console.log(error)
     const errorInfo = (error.body && error.body.errors) || error
     logger('error', 'Intercom Error:', action.name, ...args, errorInfo)
     return null

@@ -1,4 +1,4 @@
-const resolveRequest = async (response) => {
+const handleRequest = async (response) => {
   const { status, statusCode, body } = await response
   const code = status || statusCode
   if (code && code !== 200) {
@@ -7,4 +7,4 @@ const resolveRequest = async (response) => {
   return body
 }
 
-module.exports = resolveRequest
+module.exports = handleRequest

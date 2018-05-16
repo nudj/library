@@ -6,11 +6,11 @@ const expect = chai.expect
 
 chai.use(dirtyChai)
 
-const { resolveRequest } = require('../../../../lib/analytics/intercom/helpers')
+const { handleRequest } = require('../../../../lib/analytics/intercom/helpers')
 
 const INTERCOM_RESPONSE = 'INTERCOM_RESPONSE'
 
-describe('resolveRequest', () => {
+describe('handleRequest', () => {
   describe('when `status` is 200', () => {
     const response = {
       status: 200,
@@ -18,12 +18,12 @@ describe('resolveRequest', () => {
     }
 
     it('returns the response body', async () => {
-      expect(await resolveRequest(response)).to.equal(INTERCOM_RESPONSE)
+      expect(await handleRequest(response)).to.equal(INTERCOM_RESPONSE)
     })
 
     it('resolves a promise if provided', async () => {
       const promiseResponse = Promise.resolve(response)
-      expect(await resolveRequest(promiseResponse)).to.equal(INTERCOM_RESPONSE)
+      expect(await handleRequest(promiseResponse)).to.equal(INTERCOM_RESPONSE)
     })
   })
 
@@ -34,12 +34,12 @@ describe('resolveRequest', () => {
     }
 
     it('returns the response body', async () => {
-      expect(await resolveRequest(response)).to.equal(INTERCOM_RESPONSE)
+      expect(await handleRequest(response)).to.equal(INTERCOM_RESPONSE)
     })
 
     it('resolves a promise if provided', async () => {
       const promiseResponse = Promise.resolve(response)
-      expect(await resolveRequest(promiseResponse)).to.equal(INTERCOM_RESPONSE)
+      expect(await handleRequest(promiseResponse)).to.equal(INTERCOM_RESPONSE)
     })
   })
 
@@ -50,7 +50,7 @@ describe('resolveRequest', () => {
     }
 
     it('throws an error', async () => {
-      expect(resolveRequest(response)).to.eventually.be.rejectedWith(
+      expect(handleRequest(response)).to.eventually.be.rejectedWith(
         'Intercom gone done broke: 900000'
       )
     })
@@ -63,7 +63,7 @@ describe('resolveRequest', () => {
     }
 
     it('throws an error', async () => {
-      expect(resolveRequest(response)).to.eventually.be.rejectedWith(
+      expect(handleRequest(response)).to.eventually.be.rejectedWith(
         'Intercom gone done broke: NahMate'
       )
     })
@@ -75,7 +75,7 @@ describe('resolveRequest', () => {
     }
 
     it('attempts to return the body', async () => {
-      expect(await resolveRequest(response)).to.equal(INTERCOM_RESPONSE)
+      expect(await handleRequest(response)).to.equal(INTERCOM_RESPONSE)
     })
   })
 })
