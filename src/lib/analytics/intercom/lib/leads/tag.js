@@ -1,4 +1,4 @@
-const { tags: intercomTags } = require('../api')
+const intercom = require('../api')
 const getLeadBy = require('./get')
 const {
   handleAction,
@@ -7,7 +7,7 @@ const {
 
 const tagLead = async ({ lead, tags }) => {
   const intercomLead = await getLeadBy(formatUserDetails(lead))
-  await Promise.all(tags.map(tag => intercomTags.tag({
+  await Promise.all(tags.map(tag => intercom.tags.tag({
     name: tag,
     users: [{ id: intercomLead.id }]
   })))

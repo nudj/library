@@ -1,6 +1,6 @@
 const omit = require('lodash/omit')
 const tagUser = require('./tag')
-const { leads } = require('../api')
+const intercom = require('../api')
 const {
   handleAction,
   resolveRequest,
@@ -9,7 +9,7 @@ const {
 
 const updateUser = async ({ lead, data }) => {
   const { tags } = data
-  const response = await leads.update({
+  const response = await intercom.leads.update({
     ...formatUserDetails(lead),
     ...omit(data, ['tags'])
   })
