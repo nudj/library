@@ -1,7 +1,7 @@
 const format = require('date-fns/format')
 const isUndefined = require('lodash/isUndefined')
 const omitBy = require('lodash/omitBy')
-const { events } = require('../api')
+const intercom = require('../api')
 const {
   handleAction,
   formatUserDetails
@@ -17,7 +17,7 @@ const logUserEvent = ({ user, event }) => {
     metadata,
     ...formatUserDetails(user)
   }, isUndefined)
-  return events.create(eventData)
+  return intercom.events.create(eventData)
 }
 
 module.exports = handleAction(logUserEvent)

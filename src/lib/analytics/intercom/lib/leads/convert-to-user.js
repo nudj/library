@@ -1,4 +1,4 @@
-const { leads } = require('../api')
+const intercom = require('../api')
 const getLeadBy = require('./get')
 const {
   handleAction,
@@ -9,7 +9,7 @@ const {
 const convertLeadToUser = async (lead) => {
   const { email, user_id } = await getLeadBy(formatUserDetails(lead))
 
-  return resolveRequest(leads.convert({
+  return resolveRequest(intercom.leads.convert({
     contact: { email, user_id },
     user: { email }
   }))

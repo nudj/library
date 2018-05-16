@@ -1,4 +1,4 @@
-const { companies } = require('../api')
+const intercom = require('../api')
 const getCompanyBy = require('./get')
 const {
   handleAction,
@@ -12,7 +12,7 @@ const fetchCompany = ({ id, name }) => {
 
 const updateCompany = async ({ company, data }) => {
   const { company_id } = await fetchCompany(company)
-  return resolveRequest(companies.update({ company_id, ...data }))
+  return resolveRequest(intercom.companies.update({ company_id, ...data }))
 }
 
 module.exports = handleAction(updateCompany)
