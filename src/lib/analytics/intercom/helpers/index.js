@@ -1,5 +1,5 @@
 module.exports = {
   handleAction: require('./handle-action'),
-  resolveRequest: require('./resolve-request'),
+  handleRequest: require('./handle-request'),
   formatUserDetails: require('./format-user-details')
 }

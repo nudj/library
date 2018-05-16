@@ -1,6 +1,6 @@
 const intercom = require('../api')
-const { handleAction, resolveRequest } = require('../../helpers')
+const { handleAction, handleRequest } = require('../../helpers')
 
-const getUserBy = filters => resolveRequest(intercom.users.listBy(filters))
+const getUserBy = filters => handleRequest(intercom.users.listBy(filters))
 
 module.exports = handleAction(getUserBy)

@@ -3,7 +3,7 @@ const tagUser = require('./tag')
 const intercom = require('../api')
 const {
   handleAction,
-  resolveRequest,
+  handleRequest,
   formatUserDetails
 } = require('../../helpers')
 
@@ -17,7 +17,7 @@ const updateUser = async ({ lead, data }) => {
     await tagUser({ lead, tags })
   }
 
-  return resolveRequest(response)
+  return handleRequest(response)
 }
 
 module.exports = handleAction(updateUser)
