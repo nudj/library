@@ -7,6 +7,7 @@ BIN:=./node_modules/.bin
 build:
 	@docker build \
 		-t $(IMAGEDEV) \
+		--build-arg NPM_TOKEN=${NPM_TOKEN} \
 		.
 
 ssh:
@@ -14,9 +15,11 @@ ssh:
 	@docker run --rm -it \
 		--name library-dev \
 		--env-file $(CWD)/.env \
+		-e NPM_TOKEN=${NPM_TOKEN} \
 		-v $(CWD)/.zshrc:/root/.zshrc \
 		-v $(CWD)/src/lib:/usr/src/lib \
 		-v $(CWD)/src/test:/usr/src/test \
+		-v $(CWD)/src/.npmrc:/usr/src/.npmrc \
 		-v ${CWD}/src/.npmignore:/usr/src/.npmignore \
 		-v ${CWD}/src/client.js:/usr/src/client.js \
 		-v ${CWD}/src/index.js:/usr/src/index.js \
