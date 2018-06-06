@@ -3,6 +3,7 @@ module.exports = {
   actionMap: require('./lib/action-map'),
   actionMapAssign: require('./lib/action-map-assign'),
   addDataKeyValue: require('./lib/add-data-key-value'),
+  cookies: require('./lib/cookies'),
   errorParser: require('./lib/error-parser'),
   generateId: require('./lib/hash/generate-id')(),
   getFirstNonNil: require('./lib/get-first-non-nil'),
