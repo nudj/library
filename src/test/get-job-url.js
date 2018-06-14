@@ -26,9 +26,9 @@ describe('getJobUrl', () => {
       hostname: 'web.co',
       company: 'nudj',
       job: 'frontend',
-      referralId: '123'
+      referral: '123'
     }
 
-    expect(getJobUrl(args)).to.equal('https://web.co/companies/nudj/jobs/frontend?referralId=123')
+    expect(getJobUrl(args)).to.equal('https://web.co/companies/nudj/jobs/frontend?referral=123')
   })
 })
