@@ -4,13 +4,13 @@ const getJobUrl = (args) => {
     hostname,
     company,
     job,
-    referralId
+    referral
   } = args
 
   const url = `${protocol}://${hostname}/companies/${company}/jobs/${job}`
 
-  return referralId
-    ? `${url}?referralId=${referralId}`
+  return referral
+    ? `${url}?referral=${referral}`
     : url
 }
 
