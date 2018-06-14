@@ -1,4 +1,4 @@
-const getReferralUrl = ({ protocol = 'https', hostname, referralId }) =>
-  `${protocol}://${hostname}/r/${referralId}`
+const getReferralUrl = ({ protocol = 'https', hostname, referral }) =>
+  `${protocol}://${hostname}/r/${referral}`
 
 module.exports = getReferralUrl

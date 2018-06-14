@@ -13,7 +13,7 @@ describe('getReferralUrl', () => {
     const args = {
       protocol: 'https',
       hostname: 'web.co',
-      referralId: 123
+      referral: 123
     }
 
     expect(getReferralUrl(args)).to.equal('https://web.co/r/123')
