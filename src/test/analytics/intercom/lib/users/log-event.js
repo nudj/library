@@ -12,6 +12,7 @@ chai.use(dirtyChai)
 chai.use(sinonChai)
 
 const eventsCreateStub = sinon.stub()
+const eventsListStub = sinon.stub()
 
 const fetchStubCalls = (stub) => {
   const { args } = stub.getCalls()[0].proxy
@@ -21,7 +22,8 @@ const fetchStubCalls = (stub) => {
 const logUserEvent = proxyquire('../../../../../lib/analytics/intercom/lib/users/log-event', {
   '../api': {
     events: {
-      create: eventsCreateStub
+      create: eventsCreateStub,
+      listBy: eventsListStub
     }
   }
 })
@@ -32,6 +34,7 @@ describe('intercom.logUserEvent', () => {
 
   beforeEach(() => {
     eventsCreateStub.reset()
+    eventsListStub.reset()
   })
 
   let cachedIntercomEnabledEnv
@@ -78,6 +81,44 @@ describe('intercom.logUserEvent', () => {
         }
       })
       expect(result).to.equal(INTERCOM_RESPONSE)
+    })
+
+    describe('when `unique` is set to true', () => {
+      describe('when the event does not exist', () => {
+        it('creates the event', async () => {
+          eventsListStub.returns({ body: { events: [] } })
+          await logUserEvent({
+            user: { email },
+            event: {
+              unique: true,
+              name: 'test'
+            }
+          })
+          const calls = fetchStubCalls(eventsCreateStub)
+          expect(eventsCreateStub).to.have.been.called()
+          expect(calls[0]).to.have.property('event_name').to.equal('test')
+        })
+      })
+
+      describe('when the event exists', () => {
+        it('does not create the event', async () => {
+          eventsListStub.returns({
+            body: {
+              events: [{
+                event_name: 'test'
+              }]
+            }
+          })
+          await logUserEvent({
+            user: { email },
+            event: {
+              unique: true,
+              name: 'test'
+            }
+          })
+          expect(eventsCreateStub).to.not.have.been.called()
+        })
+      })
     })
   })
   describe('when request is unsuccessful', () => {
