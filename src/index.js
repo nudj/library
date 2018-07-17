@@ -9,6 +9,7 @@ module.exports = {
   getFirstNonNil: require('./lib/get-first-non-nil'),
   getJobUrl: require('./lib/get-job-url'),
   getReferralUrl: require('./lib/get-referral-url'),
+  getInvitationUrl: require('./lib/get-invitation-url'),
   logger: require('./lib/logger'),
   makeSlug: require('./lib/make-slug'),
   merge: require('./lib/merge'),
