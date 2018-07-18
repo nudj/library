@@ -1,4 +1,6 @@
 const GENERIC = 'GENERIC'
+
+// validation
 const ALREADY_EXISTS = 'ALREADY_EXISTS'
 const INVALID = 'INVALID'
 
