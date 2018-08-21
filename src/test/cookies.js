@@ -42,8 +42,7 @@ describe('cookies', () => {
     it('sets secure options', () => {
       expect(res.cookie.args[0][2]).to.deep.equal({
         httpOnly: true,
-        secure: true,
-        sameSite: true
+        secure: true
       })
     })
   })
