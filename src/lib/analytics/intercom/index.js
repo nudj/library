@@ -13,7 +13,8 @@ module.exports = {
     update: require('./lib/users/update'),
     getOrCreate: require('./lib/users/get-or-create'),
     logEvent: require('./lib/users/log-event'),
-    tag: require('./lib/users/tag')
+    tag: require('./lib/users/tag'),
+    untag: require('./lib/users/untag')
   },
   companies: {
     getBy: require('./lib/companies/get'),
