@@ -6,10 +6,18 @@ const {
 } = require('../../helpers')
 
 const tagLead = async ({ lead, tags }) => {
-  const intercomLead = await getLeadBy(formatUserDetails(lead))
+  const { email, id } = formatUserDetails(lead)
+
+  let userId = id
+  let intercomLead = lead
+  if (!userId) {
+    intercomLead = await getLeadBy({ email })
+    userId = intercomLead.id
+  }
+
   await Promise.all(tags.map(tag => intercom.tags.tag({
     name: tag,
-    users: [{ id: intercomLead.id }]
+    users: [{ id: userId }]
   })))
 
   return intercomLead
