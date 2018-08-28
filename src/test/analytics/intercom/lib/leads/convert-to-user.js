@@ -2,7 +2,6 @@
 
 const chai = require('chai')
 const sinon = require('sinon')
-const flatten = require('lodash/flatten')
 const dirtyChai = require('dirty-chai')
 const sinonChai = require('sinon-chai')
 const proxyquire = require('proxyquire')
@@ -22,11 +21,6 @@ const convertLeadToUser = proxyquire('../../../../../lib/analytics/intercom/lib/
     }
   }
 })
-
-const fetchStubCalls = (stub) => {
-  const { args } = stub.getCalls()[0].proxy
-  return flatten(args)
-}
 
 describe('intercom.convertLeadToUser', () => {
   const email = 'test@example.com'
@@ -49,28 +43,9 @@ describe('intercom.convertLeadToUser', () => {
   })
 
   describe('when request is successful', () => {
-    it('fetches lead by provided params', async () => {
-      await convertLeadToUser({ email })
-      expect(fetchStub).to.have.been.calledWith({ email })
-    })
-
     it('calls the `leads.convert` intercom method', async () => {
       await convertLeadToUser({ email })
       expect(convertStub).to.have.been.called()
-    })
-
-    it('formats the data for conversion', async () => {
-      await convertLeadToUser({ email })
-      const conversionData = fetchStubCalls(convertStub)[0]
-      expect(conversionData).to.deep.equal({
-        contact: {
-          email: 'test@example.com',
-          user_id: '1234'
-        },
-        user: {
-          email: 'test@example.com'
-        }
-      })
     })
 
     it('returns the conversion response', async () => {

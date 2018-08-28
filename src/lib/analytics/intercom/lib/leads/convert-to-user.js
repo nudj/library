@@ -1,9 +1,7 @@
 const intercom = require('../api')
-const getLeadBy = require('./get')
 const {
   handleAction,
-  handleRequest,
-  formatUserDetails
+  handleRequest
 } = require('../../helpers')
 
 const convertLeadToUser = async (lead) => {
