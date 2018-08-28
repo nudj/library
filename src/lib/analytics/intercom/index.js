@@ -4,6 +4,7 @@ const leadMethods = {
   update: require('./lib/leads/update'),
   getOrCreate: require('./lib/leads/get-or-create'),
   convertToUser: require('./lib/leads/convert-to-user'),
+  logEvent: require('./lib/leads/log-event'),
   tag: require('./lib/leads/tag')
 }
 const userMethods = {
