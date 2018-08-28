@@ -5,7 +5,7 @@ const {
 } = require('../../helpers')
 
 const convertLeadToUser = async (lead) => {
-  const { email, user_id } = await getLeadBy(formatUserDetails(lead))
+  const { email, user_id } = lead
 
   return handleRequest(intercom.leads.convert({
     contact: { email, user_id },
