@@ -2,8 +2,12 @@
 
 const emailBuilder = require('./lib/email-builder')
 const cacheReturnTo = require('./lib/cache-return-to')
+const Analytics = require('./lib/analytics/server')
+const intercom = require('./lib/analytics/intercom')
 
 module.exports = {
   emailBuilder,
-  cacheReturnTo
+  cacheReturnTo,
+  Analytics,
+  intercom
 }

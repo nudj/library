@@ -1,3 +1,2 @@
-module.exports = {
-  intercom: require('./intercom')
-}
+const analytics = require('./server')
+module.exports = analytics
