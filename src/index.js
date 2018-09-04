@@ -13,9 +13,10 @@ module.exports = {
   logger: require('./lib/logger'),
   makeSlug: require('./lib/make-slug'),
   merge: require('./lib/merge'),
+  noop: require('./lib/noop'),
+  possessiveCase: require('./lib/possessive-case'),
   promiseMap: require('./lib/promise-map'),
   quickDispatch: require('./lib/quick-dispatch'),
   renderSimpleTemplate: require('./lib/render-simple-template'),
-  toQs: require('./lib/to-qs'),
-  possessiveCase: require('./lib/possessive-case')
+  toQs: require('./lib/to-qs')
 }
