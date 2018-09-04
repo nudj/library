@@ -14,6 +14,7 @@ module.exports = {
   makeSlug: require('./lib/make-slug'),
   merge: require('./lib/merge'),
   noop: require('./lib/noop'),
+  promiseNoop: require('./lib/promise-noop'),
   possessiveCase: require('./lib/possessive-case'),
   promiseMap: require('./lib/promise-map'),
   quickDispatch: require('./lib/quick-dispatch'),
