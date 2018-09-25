@@ -45,6 +45,7 @@ const eventActions = {
     created: 'created',
     edited: 'edited',
     referred: 'referred',
+    socialShareClicked: 'social share clicked',
     sharedInternally: 'shared internally'
   },
   message: {
