@@ -11,7 +11,8 @@ const eventObjects = {
   survey: 'Survey',
   user: 'User',
   linkedIn: 'LinkedIn',
-  page: 'Page'
+  page: 'Page',
+  server: 'Server'
 }
 
 const eventActions = {
@@ -25,7 +26,8 @@ const eventActions = {
     accepted: 'accepted'
   },
   company: {
-    created: 'created'
+    created: 'created',
+    updated: 'updated'
   },
   connection: {
     created: 'created',
@@ -58,7 +60,14 @@ const eventActions = {
   user: {
     created: 'created',
     signedUp: 'signed up',
-    loggedIn: 'logged in'
+    loggedIn: 'logged in',
+    requestedDemo: 'requested demo',
+    clickedHireCTA: 'clicked hire CTA',
+    clickedBlog: 'clicked blog',
+    clickedReleaseNotes: 'clicked release notes',
+    clickedTermsAndPrivacy: 'clicked terms and privacy',
+    clickedRoadmap: 'clicked release notes',
+    clickedHelp: 'clicked help'
   },
   linkedIn: {
     opened: 'opened',
@@ -66,7 +75,11 @@ const eventActions = {
     downloaded: 'downloaded'
   },
   page: {
-    viewed: 'viewed'
+    viewed: 'viewed',
+    notFound: 'not found' // For a 404 page
+  },
+  server: {
+    errored: 'errored' // For a 500 page - "Server 500'd" doesn't read as well
   }
 }
 
