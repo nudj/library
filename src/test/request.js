@@ -15,7 +15,7 @@ let server
 
 describe('request', () => {
   before(() => {
-    server = nock('http://localhost:82/', {
+    server = nock(`http://${process.env.API_HOST}:${process.env.API_PORT}/`, {
       reqheaders: {
         Accept: 'application/json',
         'X-Requested-With': 'XMLHttpRequest'
