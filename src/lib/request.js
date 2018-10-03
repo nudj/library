@@ -12,7 +12,7 @@ const config = {
   }
 }
 if (process.title.includes('node')) {
-  config.baseURL = 'http://localhost:82/'
+  config.baseURL = `http://${process.env.API_HOST}:${process.env.API_PORT}/`
 }
 const axios = Axios.create(config)
 module.exports = async (...args) => {
