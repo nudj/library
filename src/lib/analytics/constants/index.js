@@ -4,6 +4,7 @@ const eventObjects = {
   company: 'Company',
   connection: 'Connection',
   connections: 'Connections',
+  hirer: 'Hirer',
   intro: 'Intro',
   invite: 'Invite',
   invites: 'Invites',
@@ -37,6 +38,10 @@ const eventActions = {
   connections: {
     uploaded: 'uploaded',
     filtered: 'filtered'
+  },
+  hirer: {
+    updated: 'updated',
+    removed: 'removed'
   },
   intro: {
     created: 'created'
